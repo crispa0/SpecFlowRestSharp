@@ -54,37 +54,5 @@ namespace SpecFlowRestSharp.StepDefinitions
             Assert.AreEqual(numberOfData, (int)jObject.total);
             Assert.AreEqual(dataPerPage, (int)jObject.per_page);
         }
-
-        [Given(@"I executed PUT/PATCH with ""([^""]*)"" ""([^""]*)"" ""([^""]*)"" ""([^""]*)""")]
-        public void GivenIExecutedPUTWith(string url, string name, string job, string action)
-        {
-            if (action == "put")
-            {
-                restRequest = new RestRequest(url, Method.PUT);
-            }
-            else if (action == "patch")
-            {
-                restRequest = new RestRequest(url, Method.PATCH);
-            }
-            else
-            {
-                Console.WriteLine("Action is not supported");
-            }
-            restRequest.AddJsonBody(new
-            {
-                name = name,
-                job = job
-            });
-            restResponse = restClient.Execute(restRequest);
-        }
-
-        [Then(@"the updated payload should be ""([^""]*)"" ""([^""]*)""")]
-        public void ThenTheUpdatedPayloadShouldBe(string name, string job)
-        {
-            dynamic jObject = JObject.Parse(restResponse.Content);
-            Console.WriteLine(jObject);
-
-            Assert.AreEqual(name, jObject.name.ToString());
-        }
     }
 }
